@@ -1,178 +1,87 @@
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="pandoc" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
-<title></title>
-
-<script src="PA1_template_files/jquery-1.11.3/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="PA1_template_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
-<script src="PA1_template_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="PA1_template_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="PA1_template_files/bootstrap-3.3.5/shim/respond.min.js"></script>
-
-<style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="PA1_template_files/highlight/default.css"
-      type="text/css" />
-<script src="PA1_template_files/highlight/highlight.js"></script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
-<script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
-}
-</script>
-
-
-
-
-</head>
-
-<body>
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-  height: auto;
-}
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-</style>
-
-
-<div class="container-fluid main-container">
-
-<!-- tabsets -->
-<script src="PA1_template_files/navigation-1.0/tabsets.js"></script>
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
-
-<!-- code folding -->
-
-
-
-
-
-
-<div class="fluid-row" id="header">
-
-
-
-</div>
-
-
-<div id="reproducible-research-peer-assginment-1" class="section level1">
 <h1>Reproducible research peer assginment 1</h1>
-<div id="packages-needed-for-the-assignment" class="section level2">
+
 <h2>Packages needed for the assignment</h2>
-<pre class="r"><code>library(ggplot2)
-library(lubridate)</code></pre>
+
+<pre><code class="r">library(ggplot2)
+library(lubridate)
+</code></pre>
+
 <pre><code>## 
-## Attaching package: &#39;lubridate&#39;</code></pre>
+## Attaching package: &#39;lubridate&#39;
+</code></pre>
+
 <pre><code>## The following object is masked from &#39;package:base&#39;:
 ## 
-##     date</code></pre>
-<pre class="r"><code>library(scales)
+##     date
+</code></pre>
+
+<pre><code class="r">library(scales)
 library(car)
-library(gridExtra)</code></pre>
-</div>
-<div id="loading-and-processing-the-data" class="section level2">
+library(gridExtra)
+</code></pre>
+
 <h2>Loading and processing the data</h2>
-<pre class="r"><code>fileurl &lt;- &quot;https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip&quot;
+
+<pre><code class="r">fileurl &lt;- &quot;https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip&quot;
 download.file(fileurl,destfile=&quot;factivity.zip&quot;,method=&quot;curl&quot;)
 unzip(&quot;factivity.zip&quot;)
 
-code &lt;- read.csv(&quot;activity.csv&quot;,colClasses = c(&quot;numeric&quot;,&quot;POSIXct&quot;,&quot;numeric&quot;))</code></pre>
-</div>
-<div id="histogram-of-the-total-number-of-steps-taken-each-day" class="section level2">
+code &lt;- read.csv(&quot;activity.csv&quot;,colClasses = c(&quot;numeric&quot;,&quot;POSIXct&quot;,&quot;numeric&quot;))
+</code></pre>
+
 <h2>Histogram of the total number of steps taken each day</h2>
-<div id="step-1-summarize-number-of-step-per-day" class="section level3">
+
 <h3>Step 1: summarize number of step per day</h3>
-<pre class="r"><code>daily_steps &lt;- aggregate(code$steps,by = list(day=code$date),FUN=sum, na.rm=TRUE)</code></pre>
-</div>
-<div id="step-2-plot-a-histogram" class="section level3">
+
+<pre><code class="r">daily_steps &lt;- aggregate(code$steps,by = list(day=code$date),FUN=sum, na.rm=TRUE)
+</code></pre>
+
 <h3>Step 2: plot a histogram</h3>
-<pre class="r"><code>m&lt;-ggplot(daily_steps, aes(x))
-m + geom_histogram() + xlab(&quot;Total steps per day&quot;) + ggtitle(&quot;Total number of steps taken each day&quot;)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="PA1_template_files/figure-html/unnamed-chunk-4-1.png" alt="" /><!-- --></p>
-</div>
-</div>
-<div id="mean-and-median-number-of-steps-taken-each-day" class="section level2">
+
+<pre><code class="r">m&lt;-ggplot(daily_steps, aes(x))
+m + geom_histogram() + xlab(&quot;Total steps per day&quot;) + ggtitle(&quot;Total number of steps taken each day&quot;)
+</code></pre>
+
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</code></pre>
+
+<p><img src="PA1_template_files/figure-html/unnamed-chunk-4-1.png" alt="">&lt;!-- --&gt;</p>
+
 <h2>Mean and median number of steps taken each day</h2>
-<pre class="r"><code>mean &lt;- mean(daily_steps$x)
-mean</code></pre>
-<pre><code>## [1] 9354.23</code></pre>
-<pre class="r"><code>median &lt;- median(daily_steps$x)
-median</code></pre>
-<pre><code>## [1] 10395</code></pre>
-</div>
-<div id="time-series-plot-of-the-average-steps-taken-per-5-minutes-interval" class="section level2">
+
+<pre><code class="r">mean &lt;- mean(daily_steps$x)
+mean
+</code></pre>
+
+<pre><code>## [1] 9354.23
+</code></pre>
+
+<pre><code class="r">median &lt;- median(daily_steps$x)
+median
+</code></pre>
+
+<pre><code>## [1] 10395
+</code></pre>
+
 <h2>Time series plot of the average steps taken per 5 minutes interval</h2>
-<pre class="r"><code>interval_avg &lt;- aggregate(x=code$steps,by=list(code$interval),FUN = mean, na.rm=TRUE)
-ggplot(data=interval_avg, aes(x=Group.1, y=x))+ geom_line() + ylab(&quot;avg steps taken&quot;) + xlab(&quot;Minute&quot;) + ggtitle(&quot;Average number of steps taken every 5 minute interval&quot;)</code></pre>
-<p><img src="PA1_template_files/figure-html/unnamed-chunk-6-1.png" alt="" /><!-- --></p>
-</div>
-<div id="identify-the-5-minutes-interval-than-on-average-contains-the-maximum-number-of-steps" class="section level2">
+
+<pre><code class="r">interval_avg &lt;- aggregate(x=code$steps,by=list(code$interval),FUN = mean, na.rm=TRUE)
+ggplot(data=interval_avg, aes(x=Group.1, y=x))+ geom_line() + ylab(&quot;avg steps taken&quot;) + xlab(&quot;Minute&quot;) + ggtitle(&quot;Average number of steps taken every 5 minute interval&quot;)
+</code></pre>
+
+<p><img src="PA1_template_files/figure-html/unnamed-chunk-6-1.png" alt="">&lt;!-- --&gt;</p>
+
 <h2>Identify the 5 minutes interval than on average contains the maximum number of steps</h2>
-<pre class="r"><code>interval_avg[which(interval_avg$x== max(interval_avg$x)),&quot;Group.1&quot;]</code></pre>
-<pre><code>## [1] 835</code></pre>
-</div>
-<div id="code-to-describe-and-show-the-strategy-to-imput-missing-data" class="section level2">
+
+<pre><code class="r">interval_avg[which(interval_avg$x== max(interval_avg$x)),&quot;Group.1&quot;]
+</code></pre>
+
+<pre><code>## [1] 835
+</code></pre>
+
 <h2>Code to describe and show the strategy to imput missing data</h2>
-<pre class="r"><code>number_of_na &lt;- length(which(is.na(code$steps)))
+
+<pre><code class="r">number_of_na &lt;- length(which(is.na(code$steps)))
 code2 &lt;- code
 
 impute_vals&lt;-tapply(code$steps,code$interval,FUN=mean,na.rm=TRUE)
@@ -180,88 +89,92 @@ vals&lt;-names(impute_vals)
 n&lt;-length(vals)
 
 for(i in 1:n){
-  
+
  code2$steps[which(is.na(code$steps) &amp; code$interval==vals[i])]&lt;- round(impute_vals[i],digits=0) 
-}</code></pre>
-</div>
-<div id="histogram-of-the-dataframe-with-na-imputation" class="section level2">
+}
+</code></pre>
+
 <h2>Histogram of the dataframe with NA imputation</h2>
-<pre class="r"><code>daily_steps_imp &lt;- aggregate(code2$steps,by = list(day=code$date),FUN=sum, na.rm=TRUE)
+
+<pre><code class="r">daily_steps_imp &lt;- aggregate(code2$steps,by = list(day=code$date),FUN=sum, na.rm=TRUE)
 
 
 m&lt;-ggplot(daily_steps_imp, aes(x))
-m + geom_histogram() + xlab(&quot;Total steps per day&quot;) + ggtitle(&quot;Total number of steps taken each day -- impuateted data frame&quot;)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="PA1_template_files/figure-html/unnamed-chunk-9-1.png" alt="" /><!-- --> ### Mean and median of new dataframe</p>
-<pre class="r"><code>mean2 &lt;- mean(daily_steps_imp$x)
-mean2</code></pre>
-<pre><code>## [1] 10765.64</code></pre>
-<pre class="r"><code>median2 &lt;- median(daily_steps_imp$x)
-median2</code></pre>
-<pre><code>## [1] 10762</code></pre>
-<div id="impact-on-mean-an-median" class="section level3">
+m + geom_histogram() + xlab(&quot;Total steps per day&quot;) + ggtitle(&quot;Total number of steps taken each day -- impuateted data frame&quot;)
+</code></pre>
+
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</code></pre>
+
+<p><img src="PA1_template_files/figure-html/unnamed-chunk-9-1.png" alt="">&lt;!-- --&gt;</p>
+
+<h3>Mean and median of new dataframe</h3>
+
+<pre><code class="r">mean2 &lt;- mean(daily_steps_imp$x)
+mean2
+</code></pre>
+
+<pre><code>## [1] 10765.64
+</code></pre>
+
+<pre><code class="r">median2 &lt;- median(daily_steps_imp$x)
+median2
+</code></pre>
+
+<pre><code>## [1] 10762
+</code></pre>
+
 <h3>Impact on mean an median</h3>
-<pre class="r"><code>var_tax_mean&lt;-(mean2-mean)/mean
-percent(var_tax_mean)</code></pre>
-<pre><code>## [1] &quot;15.1%&quot;</code></pre>
-<pre class="r"><code>var_tax_median&lt;-(median2-median)/median
-percent(var_tax_median)</code></pre>
-<pre><code>## [1] &quot;3.53%&quot;</code></pre>
-</div>
-</div>
-<div id="weekdays-and-weekends-data" class="section level2">
+
+<pre><code class="r">var_tax_mean&lt;-(mean2-mean)/mean
+percent(var_tax_mean)
+</code></pre>
+
+<pre><code>## [1] &quot;15.1%&quot;
+</code></pre>
+
+<pre><code class="r">var_tax_median&lt;-(median2-median)/median
+percent(var_tax_median)
+</code></pre>
+
+<pre><code>## [1] &quot;3.53%&quot;
+</code></pre>
+
 <h2>Weekdays and Weekends data</h2>
-<pre class="r"><code>Sys.setlocale(&quot;LC_TIME&quot;, &quot;en_US.UTF-8&quot;)</code></pre>
-<pre><code>## [1] &quot;en_US.UTF-8&quot;</code></pre>
-<pre class="r"><code>code3 &lt;- code2
+
+<pre><code class="r">Sys.setlocale(&quot;LC_TIME&quot;, &quot;en_US.UTF-8&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;en_US.UTF-8&quot;
+</code></pre>
+
+<pre><code class="r">code3 &lt;- code2
 code3$day&lt;-weekdays(code2$date)
 code3$day&lt;-recode(code3$day,&quot;c(&#39;Monday&#39;,&#39;Tuesday&#39;,&#39;Wednesday&#39;,&#39;Thursday&#39;,&#39;Friday&#39;)=&#39;weekday&#39;;c(&#39;Saturday&#39;,&#39;Sunday&#39;)=&#39;weekend&#39;&quot;,as.factor.result = TRUE,levels=c(&quot;weekday&quot;,&quot;weekend&quot;))
 
 code3$interval&lt;-factor(code3$interval)
-steps_wday&lt;-aggregate(code3$step,list(interval=code3$interval,day=code3$day),mean,na.rm=TRUE)</code></pre>
-<div id="weekdays-dataframe-and-graph" class="section level3">
+steps_wday&lt;-aggregate(code3$step,list(interval=code3$interval,day=code3$day),mean,na.rm=TRUE)
+</code></pre>
+
 <h3>weekdays dataframe and graph</h3>
-<pre class="r"><code>wd&lt;-ggplot(steps_wday[which(steps_wday$day==&#39;weekday&#39;),], aes(x))
-wd&lt;-wd + geom_histogram() + xlab(&quot;Total steps per day&quot;) + ggtitle(&quot;Total number of steps taken each day - Weekday&quot;)</code></pre>
-</div>
-<div id="weekend-dataframe-and-graph" class="section level3">
+
+<pre><code class="r">wd&lt;-ggplot(steps_wday[which(steps_wday$day==&#39;weekday&#39;),], aes(x))
+wd&lt;-wd + geom_histogram() + xlab(&quot;Total steps per day&quot;) + ggtitle(&quot;Total number of steps taken each day - Weekday&quot;)
+</code></pre>
+
 <h3>weekend dataframe and graph</h3>
-<pre class="r"><code>we&lt;-ggplot(steps_wday[which(steps_wday$day==&#39;weekend&#39;),], aes(x))
-we&lt;-we + geom_histogram() + xlab(&quot;Total steps per day&quot;) + ggtitle(&quot;Total number of steps taken each day - Weekend&quot;)</code></pre>
-</div>
-<div id="panel-plot-weekday-and-weekend-data" class="section level3">
+
+<pre><code class="r">we&lt;-ggplot(steps_wday[which(steps_wday$day==&#39;weekend&#39;),], aes(x))
+we&lt;-we + geom_histogram() + xlab(&quot;Total steps per day&quot;) + ggtitle(&quot;Total number of steps taken each day - Weekend&quot;)
+</code></pre>
+
 <h3>Panel plot weekday and weekend data</h3>
-<pre class="r"><code>grid.arrange(wd,we,ncol=1)</code></pre>
+
+<pre><code class="r">grid.arrange(wd,we,ncol=1)
+</code></pre>
+
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="PA1_template_files/figure-html/unnamed-chunk-15-1.png" alt="" /><!-- --></p>
-</div>
-</div>
-</div>
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+</code></pre>
 
-
-
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-$(document).ready(function () {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
-});
-
-</script>
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-
-</body>
-</html>
+<p><img src="PA1_template_files/figure-html/unnamed-chunk-15-1.png" alt="">&lt;!-- --&gt;</p>
